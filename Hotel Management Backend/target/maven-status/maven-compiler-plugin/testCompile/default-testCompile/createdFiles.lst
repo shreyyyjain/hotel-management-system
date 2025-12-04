@@ -1,0 +1,9 @@
+com\shrey\hotel\service\BookingServiceTest.class
+com\shrey\hotel\service\CartServiceTest.class
+com\shrey\hotel\service\EmailServiceTest.class
+com\shrey\hotel\controller\BookingCreationIntegrationTest.class
+com\shrey\hotel\controller\AuthControllerIntegrationTest.class
+com\shrey\hotel\service\CartValidationTest.class
+com\shrey\hotel\service\BookingConcurrencyTest.class
+com\shrey\hotel\BaseIntegrationTest.class
+com\shrey\hotel\security\JwtUtilTests.class

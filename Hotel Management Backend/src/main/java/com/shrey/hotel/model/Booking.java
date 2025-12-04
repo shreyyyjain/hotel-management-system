@@ -16,6 +16,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PostLoad;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -78,6 +79,53 @@ public class Booking {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
+    }
+
+    @PostLoad
+    protected void onLoad() {
+        // Recalculate totalAmount if it's 0 (for old bookings)
+        if (totalAmount == null || totalAmount.compareTo(BigDecimal.ZERO) == 0) {
+            recalculateTotalAmount();
+        }
+    }
+
+    private void recalculateTotalAmount() {
+        BigDecimal total = BigDecimal.ZERO;
+        
+        // Calculate room charges (room price * number of nights)
+        if (checkInDate != null && checkOutDate != null && rooms != null) {
+            long nights = java.time.temporal.ChronoUnit.DAYS.between(checkInDate, checkOutDate);
+            if (nights <= 0) nights = 1;
+            for (Room room : rooms) {
+                if (room != null && room.getPricePerNight() != null) {
+                    total = total.add(room.getPricePerNight().multiply(BigDecimal.valueOf(nights)));
+                }
+            }
+        }
+        
+        // Calculate food charges
+        if (foodItems != null) {
+            java.util.Map<Long, Integer> quantities = new java.util.HashMap<>();
+            if (foodQuantities != null && !foodQuantities.isEmpty()) {
+                try {
+                    // Parse JSON quantities if present
+                    var mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+                    quantities = mapper.readValue(foodQuantities, 
+                        new com.fasterxml.jackson.core.type.TypeReference<java.util.Map<Long, Integer>>() {});
+                } catch (Exception e) {
+                    // Fallback to 1 for each item if parsing fails
+                }
+            }
+            
+            for (FoodItem food : foodItems) {
+                if (food != null && food.getPrice() != null) {
+                    int qty = quantities.getOrDefault(food.getId(), 1);
+                    total = total.add(food.getPrice().multiply(BigDecimal.valueOf(qty)));
+                }
+            }
+        }
+        
+        this.totalAmount = total;
     }
 
     public Booking() {}
