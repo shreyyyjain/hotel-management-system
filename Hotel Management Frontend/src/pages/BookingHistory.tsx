@@ -85,18 +85,18 @@ export default function BookingHistory() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 pb-36 flex justify-center">
+    <div className="min-h-screen bg-neutral-50 py-12 pb-36 flex justify-center">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         {/* Header */}
         <div className="mb-8">
           <button
             onClick={() => navigate('/dashboard')}
-            className="font-heading px-8 py-4 bg-primary text-white rounded-xl font-bold hover:bg-secondary transition-all mb-8 flex items-center gap-2 uppercase tracking-heading shadow-lg text-lg"
+            className="font-heading px-8 py-4 bg-[#0056D6] text-white rounded-xl font-bold hover:bg-[#0046B1] transition-all mb-8 flex items-center gap-2 uppercase tracking-heading shadow-lg text-lg"
             aria-label="Back to Dashboard"
           >
             ← Dashboard
           </button>
-          <h1 className="font-heading text-4xl font-bold text-gray-900 uppercase tracking-heading text-center">
+          <h1 className="font-heading text-4xl font-bold text-neutral-900 uppercase tracking-heading text-center">
             My Bookings
           </h1>
           <p className="text-gray-600 mt-2 text-center">View and manage all your reservations</p>

@@ -181,13 +181,13 @@ export default function Cart() {
   const selectedFoodItems = foodItems.filter(item => selectedFood[item.id] > 0);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 flex justify-center">
+    <div className="min-h-screen bg-neutral-50 py-12 flex justify-center">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         {/* Header */}
         <div className="mb-8 flex flex-col items-center">
           <button
             onClick={handleBackToSelection}
-            className="font-heading px-8 py-4 bg-gray-800 text-white rounded-xl font-bold hover:bg-gray-700 transition-all mb-6 inline-flex items-center gap-2 uppercase tracking-heading shadow-lg text-lg"
+            className="font-heading px-8 py-4 bg-neutral-800 text-white rounded-xl font-bold hover:bg-neutral-900 transition-all mb-6 inline-flex items-center gap-2 uppercase tracking-heading shadow-lg text-lg"
             aria-label="Back to Room Selection"
           >
             ← Back to Room Selection
@@ -195,13 +195,13 @@ export default function Cart() {
         </div>
 
         {/* Date Summary */}
-        <div className="bg-gradient-to-r from-primary to-secondary text-white p-6 rounded-xl mb-8 shadow-lg text-center max-w-4xl mx-auto">
+        <div className="bg-gradient-to-r from-[#003580] to-[#0056D6] text-white p-6 rounded-xl mb-8 shadow-lg text-center max-w-4xl mx-auto">
           <p className="text-sm text-white/80 mb-1 uppercase tracking-wide">Your Stay</p>
           <p className="text-xl sm:text-2xl font-bold drop-shadow">
             {new Date(checkInDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
             {' → '}
             {new Date(checkOutDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-            <span className="ml-3 text-accent">({calculateNights()} night{calculateNights() !== 1 ? 's' : ''})</span>
+            <span className="ml-3 text-[#F4B400]">({calculateNights()} night{calculateNights() !== 1 ? 's' : ''})</span>
           </p>
         </div>
 
@@ -347,7 +347,7 @@ export default function Cart() {
               <button
                 onClick={handleConfirmBooking}
                 disabled={bookingLoading || Object.keys(roomQuantities).length === 0}
-                className="w-full font-heading py-4 bg-yellow-300 text-gray-900 rounded-xl font-bold text-lg hover:bg-yellow-400 disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-heading shadow-xl hover:shadow-2xl transition-all"
+                className="w-full font-heading py-4 bg-[#F4B400] text-[#0B1220] rounded-xl font-bold text-lg hover:bg-[#D99A00] disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-heading shadow-xl hover:shadow-2xl transition-all"
               >
                 {bookingLoading ? 'Processing...' : '✨ Confirm Booking'}
               </button>

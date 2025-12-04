@@ -222,9 +222,9 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-neutral-50">
       {/* Header */}
-      <header className="bg-gradient-to-r from-blue-900 to-indigo-900 shadow-md sticky top-0 z-40">
+      <header className="bg-gradient-to-r from-[#003580] to-[#0056D6] shadow-md sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <h1 className="font-heading text-heading-md font-bold text-white uppercase tracking-heading">
@@ -233,14 +233,14 @@ export default function Home() {
             <div className="flex flex-wrap items-center gap-3">
               <button
                 onClick={() => navigate('/dashboard')}
-                className="font-heading px-4 py-2 text-sm font-bold text-white hover:text-yellow-300 uppercase tracking-heading transition-colors"
+                className="font-heading px-4 py-2 text-sm font-bold text-white hover:text-[#F4B400] uppercase tracking-heading transition-colors"
                 aria-label="Go to dashboard"
               >
                 Dashboard
               </button>
               <button
                 onClick={() => navigate('/bookings')}
-                className="font-heading px-4 py-2 text-sm font-bold text-white hover:text-yellow-300 uppercase tracking-heading transition-colors"
+                className="font-heading px-4 py-2 text-sm font-bold text-white hover:text-[#F4B400] uppercase tracking-heading transition-colors"
                 aria-label="View my bookings"
               >
                 My Bookings
@@ -308,7 +308,7 @@ export default function Home() {
               <button
                 onClick={handleContinueToSelection}
                 disabled={!checkInDate || !checkOutDate || new Date(checkOutDate) <= new Date(checkInDate)}
-                className="mt-8 w-full py-4 sm:py-6 bg-accent text-gray-900 text-xl sm:text-2xl font-bold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:bg-yellow-400 transition-all shadow-xl hover:shadow-2xl transform hover:scale-[1.02] uppercase tracking-heading"
+                className="mt-8 w-full py-4 sm:py-6 bg-[#F4B400] text-[#0B1220] text-xl sm:text-2xl font-bold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#D99A00] transition-all shadow-xl hover:shadow-2xl transform hover:scale-[1.02] uppercase tracking-heading"
                 aria-label="Continue to room selection"
               >
                 Continue to Room Selection →
@@ -321,7 +321,7 @@ export default function Home() {
         {bookingStep === 'selection' && (
           <div className="w-full flex flex-col items-center">
             {/* Date Summary Banner */}
-            <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white p-4 sm:p-6 rounded-xl mb-8 shadow-lg max-w-5xl w-full">
+            <div className="bg-gradient-to-r from-[#003580] to-[#0056D6] text-white p-4 sm:p-6 rounded-xl mb-8 shadow-lg max-w-5xl w-full">
               <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
                 <div className="text-center">
                   <p className="text-sm text-white/80 mb-1 uppercase tracking-wide">Your Stay</p>

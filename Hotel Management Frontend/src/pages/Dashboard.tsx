@@ -66,9 +66,9 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
+    <div className="min-h-screen bg-neutral-50">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-secondary text-white py-20">
+      <section className="bg-gradient-to-r from-[#003580] to-[#0056D6] text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="font-heading text-5xl md:text-6xl font-bold mb-6 uppercase tracking-heading">
@@ -80,7 +80,7 @@ export default function Dashboard() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
                 onClick={() => navigate('/home')}
-                className="font-heading px-10 py-4 bg-accent text-gray-900 rounded-xl font-bold text-lg hover:bg-yellow-400 transition-all shadow-lg hover:shadow-xl uppercase tracking-heading"
+                className="font-heading px-10 py-4 bg-[#F4B400] text-[#0B1220] rounded-xl font-bold text-lg hover:bg-[#D99A00] transition-all shadow-lg hover:shadow-xl uppercase tracking-heading"
               >
                 Explore Now
               </button>
