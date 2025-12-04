@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.shrey.hotel.model.FoodItem;
+import com.shrey.hotel.model.Role;
 import com.shrey.hotel.model.Room;
 import com.shrey.hotel.model.User;
 import com.shrey.hotel.repository.FoodItemRepository;
@@ -40,15 +41,20 @@ public class DataInitializer implements CommandLineRunner {
             seedFoodItems();
         }
         
-        // Create default admin user if not exists
-        if (!userRepository.existsByEmail("admin@hotel.com")) {
-            User admin = new User();
+        // Create or update default admin user
+        User admin = userRepository.findByEmail("admin@hotel.com").orElse(null);
+        if (admin == null) {
+            admin = new User();
             admin.setEmail("admin@hotel.com");
             admin.setFullName("Admin User");
-            admin.setPasswordHash(passwordEncoder.encode("admin"));
-            userRepository.save(admin);
-            System.out.println("✅ Created default admin user: admin@hotel.com / admin");
+            System.out.println("✅ Creating default admin user: admin@hotel.com");
+        } else {
+            System.out.println("✅ Updating default admin user: admin@hotel.com");
         }
+        admin.setPasswordHash(passwordEncoder.encode("admin12345"));
+        admin.setRole(Role.ADMIN);
+        userRepository.save(admin);
+        System.out.println("✅ Admin user password set to: admin12345");
         
         System.out.println("✅ Data initialization complete!");
         System.out.println("📊 Rooms: " + roomRepository.count());

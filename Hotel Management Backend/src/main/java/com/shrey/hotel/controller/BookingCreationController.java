@@ -54,14 +54,44 @@ public class BookingCreationController {
         
         // Handle both foodItemIds and foodItems formats
         List<FoodItem> foodItems;
+        java.util.Map<Long, Integer> foodQuantitiesMap = new java.util.HashMap<>();
         if (req.foodItems != null && !req.foodItems.isEmpty()) {
             List<Long> ids = req.foodItems.stream()
                 .map(f -> f.foodItemId)
                 .filter(java.util.Objects::nonNull)
                 .collect(java.util.stream.Collectors.toList());
             foodItems = foodItemRepository.findAllById(new java.util.ArrayList<>(ids));
+            // Build food quantities map
+            for (FoodItemQuantity fiq : req.foodItems) {
+                if (fiq.foodItemId != null && fiq.quantity != null) {
+                    foodQuantitiesMap.put(fiq.foodItemId, fiq.quantity);
+                }
+            }
         } else {
             foodItems = req.foodItemIds == null ? List.of() : foodItemRepository.findAllById(req.foodItemIds);
+        }
+
+        // Calculate total amount server-side
+        BigDecimal totalAmount = BigDecimal.ZERO;
+        
+        // Calculate room charges (room price * quantity * number of nights)
+        if (req.checkInDate != null && req.checkOutDate != null) {
+            java.time.LocalDate checkIn = java.time.LocalDate.parse(req.checkInDate);
+            java.time.LocalDate checkOut = java.time.LocalDate.parse(req.checkOutDate);
+            long nights = java.time.temporal.ChronoUnit.DAYS.between(checkIn, checkOut);
+            if (nights <= 0) nights = 1;
+            
+            for (Room room : rooms) {
+                BigDecimal roomPrice = room.getPricePerNight() != null ? room.getPricePerNight() : BigDecimal.ZERO;
+                totalAmount = totalAmount.add(roomPrice.multiply(BigDecimal.valueOf(nights)));
+            }
+        }
+        
+        // Calculate food charges
+        for (FoodItem food : foodItems) {
+            BigDecimal foodPrice = food.getPrice() != null ? food.getPrice() : BigDecimal.ZERO;
+            Integer quantity = foodQuantitiesMap.getOrDefault(food.getId(), 1);
+            totalAmount = totalAmount.add(foodPrice.multiply(BigDecimal.valueOf(quantity)));
         }
 
         Booking booking = new Booking();
@@ -69,7 +99,7 @@ public class BookingCreationController {
         booking.setRooms(rooms);
         booking.setFoodItems(foodItems);
         booking.setFoodQuantities(req.foodQuantities);
-        booking.setTotalAmount(req.totalAmount == null ? BigDecimal.ZERO : req.totalAmount);
+        booking.setTotalAmount(totalAmount);
         booking.setStatus(BookingStatus.CONFIRMED);
         
         // Set check-in and check-out dates

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { authService } from '../services/authService';
+import { useAppContext } from '../context/AppContext';
 
 export default function Signup() {
   const [email, setEmail] = useState('');
@@ -13,6 +14,7 @@ export default function Signup() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { dispatch } = useAppContext();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,7 +30,17 @@ export default function Signup() {
     setLoading(true);
 
     try {
-      await authService.signup(email, password, fullName);
+      const response = await authService.signup(email, password, fullName);
+      dispatch({ 
+        type: 'SET_USER', 
+        payload: { 
+          id: response.id, 
+          email: response.email, 
+          fullName: response.fullName,
+          createdAt: new Date().toISOString()
+        } 
+      });
+      dispatch({ type: 'SET_TOKEN', payload: response.accessToken });
       toast.success('Account created successfully!');
       navigate('/');
     } catch (err: any) {

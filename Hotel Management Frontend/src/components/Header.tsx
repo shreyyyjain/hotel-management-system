@@ -1,12 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../services/authService';
+import { useAppContext } from '../context/AppContext';
 
 export function Header() {
   const navigate = useNavigate();
-  const user = authService.getCurrentUser();
+  const { state, dispatch } = useAppContext();
+  const user = state.auth.user || authService.getCurrentUser();
 
   const handleLogout = () => {
     authService.logout();
+    dispatch({ type: 'LOGOUT' });
     navigate('/login');
   };
 

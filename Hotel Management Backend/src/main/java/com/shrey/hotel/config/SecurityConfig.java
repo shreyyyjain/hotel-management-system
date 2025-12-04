@@ -39,6 +39,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/auth/**", "/rooms/**", "/food-items/**", "/bookings/**").permitAll()
                 .requestMatchers("/api/auth/**", "/api/rooms/**", "/api/food-items/**", "/api/bookings/**").permitAll() // context-path explicit patterns for authenticated routes
+                .requestMatchers("/api/admin/**").hasRole("ADMIN") // Admin endpoints require ADMIN role
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/actuator/health", "/actuator/health/**", "/", "/error").permitAll()
                 .anyRequest().authenticated()
             )

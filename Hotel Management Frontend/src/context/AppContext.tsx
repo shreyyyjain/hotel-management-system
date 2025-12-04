@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useContext } from 'react';
+import React, { createContext, useReducer, useContext, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import type { User, CartItem } from '../types';
 
@@ -160,6 +160,26 @@ function appReducer(state: AppState, action: Action): AppState {
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(appReducer, initialState);
+
+  // Hydrate from localStorage on mount
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    const token = localStorage.getItem('authToken');
+    
+    if (user && token) {
+      try {
+        let parsedUser = JSON.parse(user);
+        // Ensure createdAt exists
+        if (!parsedUser.createdAt) {
+          parsedUser.createdAt = new Date().toISOString();
+        }
+        dispatch({ type: 'SET_USER', payload: parsedUser });
+        dispatch({ type: 'SET_TOKEN', payload: token });
+      } catch (error) {
+        console.error('Failed to hydrate user from localStorage:', error);
+      }
+    }
+  }, []);
 
   return <AppContext.Provider value={{ state, dispatch }}>{children}</AppContext.Provider>;
 }

@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import apiClient from '../services/apiClient';
 import toast from 'react-hot-toast';
 import { Header } from '../components/Header';
+import { useAppContext } from '../context/AppContext';
 
 interface Stats {
   totalRooms: number;
@@ -12,9 +13,12 @@ interface Stats {
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const { state } = useAppContext();
   const [stats, setStats] = useState<Stats>({ totalRooms: 0, availableRooms: 0, totalFoodItems: 0 });
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const isAdmin = state.auth.user?.email === 'admin@hotel.com';
 
   useEffect(() => {
     let mounted = true;
@@ -103,21 +107,15 @@ export default function Dashboard() {
                 </p>
 
                 <div className="flex flex-wrap gap-3">
-                  <button
-                    onClick={() => navigate('/home')}
-                    aria-label="Explore rooms and offerings"
-                    className="font-heading px-6 py-2 text-sm bg-[#F4B400] text-[#0B1220] rounded-md font-bold hover:bg-[#D99A00] transition-shadow shadow-sm focus:outline-none focus:ring-4 focus:ring-[#F4B400]/30"
-                  >
-                    Explore Now
-                  </button>
-
-                  <button
-                    onClick={() => navigate('/bookings')}
-                    aria-label="View my bookings"
-                    className="px-4 py-2 text-sm bg-white text-[#0056D6] rounded-md font-medium hover:opacity-95 focus:outline-none focus:ring-4 focus:ring-white/30"
-                  >
-                    My Bookings
-                  </button>
+                  {isAdmin && (
+                    <button
+                      onClick={() => navigate('/admin')}
+                      aria-label="Go to admin dashboard"
+                      className="px-6 py-2 text-sm bg-red-500 text-white rounded-md font-bold hover:bg-red-600 transition-shadow shadow-sm focus:outline-none focus:ring-4 focus:ring-red-500/30"
+                    >
+                      ⚙️ Admin Dashboard
+                    </button>
+                  )}
                 </div>
               </div>
 
