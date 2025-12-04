@@ -11,15 +11,25 @@ A full-stack hotel management application with a modern, responsive UI and robus
 ## ✨ Features
 
 ### User Features
-- 🔐 **Secure Authentication** - JWT-based authentication with refresh tokens
+- 🔐 **Secure Authentication** - JWT-based authentication with refresh tokens and secure password hashing
 - 🏨 **Room Booking** - Browse and book from various room types (Single, Double, Deluxe, Suite, Presidential)
 - 🍽️ **Food Ordering** - Order from a diverse menu with multiple cuisines
 - 📅 **Date Selection** - Flexible check-in/check-out date selection with validation
 - 🛒 **Shopping Cart** - Add/remove rooms and food items before confirmation
 - 📋 **Booking History** - View, manage, and track all bookings with detailed information
 - 📊 **Dashboard** - Quick access to stats and key actions
-- 💳 **Order Summary** - Clear pricing breakdown with subtotals and totals
+- 💳 **Order Summary** - Clear pricing breakdown with accurate totals calculated server-side
 - ✅ **Real-time Validation** - Quantity limits, date validation, and availability checks
+
+### Admin Features
+- 👨‍💼 **Admin Dashboard** - Comprehensive management interface for administrators
+- 📊 **Statistics Dashboard** - View total users, rooms, food items, and bookings
+- 👥 **User Management** - View all users with search and filter capabilities
+- 🛏️ **Room Management** - Add/edit/delete rooms with pricing updates
+- 🍽️ **Food Management** - Add/edit/delete food items from menu
+- 🛒 **Booking Management** - View all bookings with filtering by status
+- 💰 **Price Management** - Update pricing for rooms and food items
+- 🔒 **Role-Based Access Control** - Admin-only endpoints with @PreAuthorize security
 
 ### Technical Features
 - 📱 **Fully Responsive** - Mobile-first design with Tailwind CSS
@@ -200,6 +210,23 @@ Hotel Management System/
 
    Frontend will start on `http://localhost:5173`
 
+### Default Admin Credentials
+
+After starting the application, use these credentials to access the admin dashboard:
+
+```
+Email: admin@hotel.com
+Password: admin12345
+```
+
+Navigate to the Admin Dashboard to manage:
+- 📊 System statistics
+- 👥 All users
+- 🛏️ Rooms (add/edit/delete)
+- 🍽️ Food items (add/edit/delete)
+- 🛒 All bookings
+- 💰 Pricing updates
+
 ### Docker Setup (Optional)
 
 ```bash
@@ -274,15 +301,32 @@ docker-compose down
 - `GET /api/bookings/my-history` - Get user's booking history
 - `PUT /api/bookings/{id}/status` - Update booking status
 
+### Admin Endpoints (Requires Admin Role)
+- `GET /api/admin/stats` - Get dashboard statistics
+- `GET /api/admin/users` - Get all users
+- `GET /api/admin/rooms` - Get all rooms
+- `GET /api/admin/food-items` - Get all food items
+- `GET /api/admin/bookings` - Get all bookings
+- `POST /api/admin/rooms` - Create new room
+- `PUT /api/admin/rooms/{id}` - Update room
+- `DELETE /api/admin/rooms/{id}` - Delete room
+- `POST /api/admin/food-items` - Create new food item
+- `PUT /api/admin/food-items/{id}` - Update food item
+- `DELETE /api/admin/food-items/{id}` - Delete food item
+- `PUT /api/admin/price-update` - Batch update prices
+- `DELETE /api/admin/bookings/{id}` - Delete booking
+
 ## 🔐 Security
 
 - **JWT Authentication**: Stateless authentication with access and refresh tokens
-- **Password Hashing**: Bcrypt with strength 12
+- **Password Hashing**: Bcrypt with strength 12 (minimum 8 characters required)
+- **Role-Based Access Control**: @PreAuthorize for admin-only endpoints
 - **CORS**: Configured for development and production origins
 - **CSRF Protection**: Disabled for stateless API
 - **SQL Injection**: Prevented through JPA/Hibernate parameterized queries
 - **XSS Protection**: React's built-in escaping
 - **Input Validation**: Server-side validation with Bean Validation
+- **Secure Lifecycle Hooks**: @PrePersist, @PreUpdate, @PostLoad for data integrity
 
 ## 🎨 Design System
 
@@ -352,20 +396,26 @@ npm run build
 
 ## 🐛 Known Issues & Future Enhancements
 
-### Known Issues
-- None currently reported
+### Recently Fixed
+- ✅ Admin panel with comprehensive dashboard and management features
+- ✅ Role-based access control for admin users
+- ✅ Booking totalAmount calculation (server-side with @PostLoad retroactive fix for old bookings)
+- ✅ Food item deletion in admin dashboard
+- ✅ Login/authentication flow with AppContext state management
+- ✅ AppContext hydration with localStorage for session persistence
 
 ### Planned Features
-- [ ] Payment gateway integration
-- [ ] Email notifications for bookings
-- [ ] Admin panel for managing rooms and food items
+- [ ] Payment gateway integration (Stripe/Razorpay)
+- [ ] Email notifications for bookings and confirmations
 - [ ] Real-time availability updates using WebSockets
-- [ ] Multi-language support
+- [ ] Multi-language support (i18n)
 - [ ] Customer reviews and ratings
-- [ ] Room amenities filtering
-- [ ] Photo galleries for rooms
-- [ ] Booking modification/cancellation
+- [ ] Room amenities filtering and search
+- [ ] Photo galleries for rooms and food
+- [ ] Booking modification/cancellation by users
 - [ ] Loyalty points system
+- [ ] Invoice generation and PDF download
+- [ ] Analytics and reporting for admins
 
 ## 🤝 Contributing
 
