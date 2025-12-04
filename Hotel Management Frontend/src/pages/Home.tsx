@@ -5,6 +5,7 @@ import apiClient from '../services/apiClient';
 import type { Room, FoodItem } from '../types';
 import { authService } from '../services/authService';
 import { SkeletonGrid } from '../components/SkeletonLoader';
+import { Header } from '../components/Header';
 
 interface RoomTypeGroup {
   type: string;
@@ -189,10 +190,7 @@ export default function Home() {
     });
   };
 
-  const handleLogout = () => {
-    authService.logout();
-    navigate('/login');
-  };
+
 
   const filteredRoomGroups = groupRoomsByType().filter(group => {
     const matchesSearch = group.type.toLowerCase().includes(roomSearch.toLowerCase());
@@ -223,57 +221,22 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-neutral-50">
-      {/* Header */}
-      <header className="bg-gradient-to-r from-[#003580] to-[#0056D6] shadow-md sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <h1 className="font-heading text-heading-md font-bold text-white uppercase tracking-heading">
-              🏨 Hotel Paradise
-            </h1>
-            <div className="flex flex-wrap items-center gap-3">
-              <button
-                onClick={() => navigate('/dashboard')}
-                className="font-heading px-4 py-2 text-sm font-bold text-white hover:text-[#F4B400] uppercase tracking-heading transition-colors"
-                aria-label="Go to dashboard"
-              >
-                Dashboard
-              </button>
-              <button
-                onClick={() => navigate('/bookings')}
-                className="font-heading px-4 py-2 text-sm font-bold text-white hover:text-[#F4B400] uppercase tracking-heading transition-colors"
-                aria-label="View my bookings"
-              >
-                My Bookings
-              </button>
-              <span className="text-sm text-blue-100 font-medium hidden sm:inline">
-                Welcome, {user?.fullName}
-              </span>
-              <button
-                onClick={handleLogout}
-                className="font-heading px-6 py-2 text-sm font-bold text-white bg-red-600 rounded-lg hover:bg-red-700 uppercase tracking-heading transition-all shadow-md hover:shadow-lg"
-                aria-label="Logout"
-              >
-                Logout
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-8 flex flex-col items-center justify-center">
         {/* Date Selection Step */}
         {bookingStep === 'dates' && (
           <div className="max-w-4xl mx-auto w-full flex flex-col items-center justify-center">
             <div className="bg-gradient-to-r from-gray-800 to-gray-900 p-8 sm:p-12 rounded-2xl shadow-2xl mb-8 w-full">
-              <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-center uppercase tracking-heading drop-shadow-lg text-white">
+              <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold mb-2 text-center uppercase tracking-heading text-white">
                 When do you want to stay?
               </h2>
-              <p className="text-center text-lg sm:text-xl mb-8 drop-shadow text-white">
+              <p className="text-center text-lg sm:text-xl mb-8 text-gray-200">
                 Select your check-in and check-out dates to see available rooms
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-white/20 backdrop-blur-sm rounded-xl p-6 border-2 border-white/30 shadow-lg">
-                  <label htmlFor="checkInDate" className="block text-xl sm:text-2xl font-bold mb-4 text-white drop-shadow-lg">
+                <div>
+                  <label htmlFor="checkInDate" className="block text-sm font-bold mb-2 text-gray-100 uppercase tracking-wide">
                     📅 Check-in Date
                   </label>
                   <input
@@ -282,14 +245,13 @@ export default function Home() {
                     value={checkInDate}
                     onChange={(e) => setCheckInDate(e.target.value)}
                     min={new Date().toISOString().split('T')[0]}
-                    placeholder="dd-mm-yyyy"
-                    className="w-full px-4 sm:px-6 py-3 sm:py-4 text-lg sm:text-xl rounded-xl text-gray-900 font-bold focus:outline-none focus:ring-4 focus:ring-yellow-400 transition-all bg-gray-100"
+                    className="w-full px-4 sm:px-6 py-3 sm:py-4 text-base sm:text-lg rounded-xl text-gray-900 font-semibold focus:outline-none focus:ring-4 focus:ring-[#F4B400] transition-all bg-white"
                     aria-label="Select check-in date"
                     aria-required="true"
                   />
                 </div>
-                <div className="bg-white/20 backdrop-blur-sm rounded-xl p-6 border-2 border-white/30 shadow-lg">
-                  <label htmlFor="checkOutDate" className="block text-xl sm:text-2xl font-bold mb-4 text-white drop-shadow-lg">
+                <div>
+                  <label htmlFor="checkOutDate" className="block text-sm font-bold mb-2 text-gray-100 uppercase tracking-wide">
                     📅 Check-out Date
                   </label>
                   <input
@@ -298,8 +260,7 @@ export default function Home() {
                     value={checkOutDate}
                     onChange={(e) => setCheckOutDate(e.target.value)}
                     min={checkInDate || new Date().toISOString().split('T')[0]}
-                    placeholder="dd-mm-yyyy"
-                    className="w-full px-4 sm:px-6 py-3 sm:py-4 text-lg sm:text-xl rounded-xl text-gray-900 font-bold focus:outline-none focus:ring-4 focus:ring-yellow-400 transition-all bg-gray-100"
+                    className="w-full px-4 sm:px-6 py-3 sm:py-4 text-base sm:text-lg rounded-xl text-gray-900 font-semibold focus:outline-none focus:ring-4 focus:ring-[#F4B400] transition-all bg-white"
                     aria-label="Select check-out date"
                     aria-required="true"
                   />
@@ -406,46 +367,49 @@ export default function Home() {
                   {filteredRoomGroups.map((group) => (
                     <div
                       key={group.type}
-                      className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all transform hover:scale-[1.02] w-full max-w-xs"
+                      className="bg-white border border-neutral-200 rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all transform hover:scale-[1.02] w-full max-w-xs flex flex-col h-full"
                     >
                       <div className="h-48 bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
                         <span className="text-7xl" role="img" aria-label="Hotel icon">🏨</span>
                       </div>
-                      <div className="p-6 sm:p-8">
-                        <div className="mb-6">
-                          <h3 className="font-heading text-2xl font-bold text-gray-900 uppercase tracking-heading mb-2">
+                      <div className="p-6 sm:p-8 flex flex-col flex-1">
+                        {/* Title and Price */}
+                        <div className="flex items-start justify-between w-full mb-4">
+                          <h3 className="font-heading text-xl font-bold text-gray-900 uppercase tracking-heading flex-1">
                             {group.type}
                           </h3>
-                          <p className="text-sm text-gray-600 mb-1">
-                            <strong className="text-green-600">{group.availableCount}</strong> available of {group.totalCount}
-                          </p>
-                          <div className="flex justify-between items-baseline mt-4">
-                            <span className="font-heading text-3xl font-bold text-primary">
+                          <div className="text-right">
+                            <div className="font-heading text-2xl font-bold text-primary">
                               ₹{group.pricePerNight.toLocaleString('en-IN')}
-                            </span>
+                            </div>
                             <span className="text-xs text-gray-500 uppercase">per night</span>
                           </div>
                         </div>
+
+                        {/* Availability */}
+                        <p className="text-sm text-gray-600 mb-6">
+                          <strong className="text-green-600">{group.availableCount}</strong> available of {group.totalCount}
+                        </p>
                         
-                        <div className="flex items-center justify-center gap-4 bg-gray-50 rounded-lg p-4">
+                        {/* Quantity Selector - pinned to bottom */}
+                        <div className="mt-auto flex items-center justify-end gap-3 bg-gray-50 rounded-lg p-4">
                           <button
                             onClick={() => updateRoomQuantity(group.type, -1)}
                             disabled={!roomQuantities[group.type]}
-                            className="font-heading w-12 h-12 flex items-center justify-center bg-gray-200 rounded-lg hover:bg-gray-300 disabled:opacity-30 disabled:cursor-not-allowed text-xl font-bold transition-all active:scale-95"
+                            className="font-heading w-10 h-10 flex items-center justify-center bg-gray-200 rounded-lg hover:bg-gray-300 disabled:opacity-30 disabled:cursor-not-allowed text-lg font-bold transition-all active:scale-95"
                             aria-label={`Decrease ${group.type} room quantity`}
                           >
                             −
                           </button>
-                          <div className="text-center min-w-[60px]">
-                            <div className="font-heading text-2xl font-bold text-gray-900">
+                          <div className="text-center min-w-[50px]">
+                            <div className="font-heading text-xl font-bold text-gray-900">
                               {roomQuantities[group.type] || 0}
                             </div>
-                            <div className="text-xs text-gray-500 uppercase">rooms</div>
                           </div>
                           <button
                             onClick={() => updateRoomQuantity(group.type, 1)}
                             disabled={!group.availableCount || (roomQuantities[group.type] || 0) >= Math.min(group.availableCount, MAX_QUANTITY_PER_ITEM)}
-                            className="font-heading w-12 h-12 flex items-center justify-center bg-primary text-white rounded-lg hover:bg-secondary disabled:opacity-30 disabled:cursor-not-allowed text-xl font-bold transition-all active:scale-95 shadow-md hover:shadow-lg"
+                            className="font-heading w-10 h-10 flex items-center justify-center bg-primary text-white rounded-lg hover:bg-secondary disabled:opacity-30 disabled:cursor-not-allowed text-lg font-bold transition-all active:scale-95 shadow-md hover:shadow-lg"
                             aria-label={`Increase ${group.type} room quantity`}
                           >
                             +
@@ -493,43 +457,45 @@ export default function Home() {
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 justify-items-center w-full max-w-6xl">
                   {filteredFood.map((item) => (
-                    <div key={item.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all transform hover:scale-[1.02] w-full max-w-xs">
+                    <div key={item.id} className="bg-white border border-neutral-200 rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all transform hover:scale-[1.02] w-full max-w-xs flex flex-col h-full">
                       <div className="h-48 bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center">
                         <span className="text-7xl" role="img" aria-label="Food icon">🍽️</span>
                       </div>
-                      <div className="p-6 sm:p-8">
-                        <div className="mb-6">
-                          <h3 className="font-heading text-xl font-bold text-gray-900 uppercase tracking-heading mb-2">
+                      <div className="p-6 sm:p-8 flex flex-col flex-1">
+                        {/* Title and Price */}
+                        <div className="flex items-start justify-between w-full mb-2">
+                          <h3 className="font-heading text-lg font-bold text-gray-900 uppercase tracking-heading flex-1">
                             {item.name}
                           </h3>
-                          <p className="text-sm text-gray-600 mb-4 capitalize">{item.cuisine} Cuisine</p>
-                          <div className="flex justify-between items-baseline">
-                            <span className="font-heading text-2xl font-bold text-primary">
+                          <div className="text-right">
+                            <div className="font-heading text-xl font-bold text-primary">
                               ₹{item.price.toLocaleString('en-IN')}
-                            </span>
-                            <span className="text-xs text-gray-500 uppercase">per item</span>
+                            </div>
                           </div>
                         </div>
+
+                        {/* Cuisine Type */}
+                        <p className="text-sm text-gray-600 mb-6 capitalize">{item.cuisine} Cuisine</p>
                         
-                        <div className="flex items-center justify-center gap-4 bg-gray-50 rounded-lg p-4">
+                        {/* Quantity Selector - pinned to bottom */}
+                        <div className="mt-auto flex items-center justify-end gap-3 bg-gray-50 rounded-lg p-4">
                           <button
                             onClick={() => updateFoodQuantity(item.id, (selectedFood[item.id] || 0) - 1)}
                             disabled={!selectedFood[item.id]}
-                            className="font-heading w-12 h-12 flex items-center justify-center bg-gray-200 rounded-lg hover:bg-gray-300 disabled:opacity-30 disabled:cursor-not-allowed text-xl font-bold transition-all active:scale-95"
+                            className="font-heading w-10 h-10 flex items-center justify-center bg-gray-200 rounded-lg hover:bg-gray-300 disabled:opacity-30 disabled:cursor-not-allowed text-lg font-bold transition-all active:scale-95"
                             aria-label={`Decrease ${item.name} quantity`}
                           >
                             −
                           </button>
-                          <div className="text-center min-w-[60px]">
-                            <div className="font-heading text-2xl font-bold text-gray-900">
+                          <div className="text-center min-w-[50px]">
+                            <div className="font-heading text-xl font-bold text-gray-900">
                               {selectedFood[item.id] || 0}
                             </div>
-                            <div className="text-xs text-gray-500 uppercase">items</div>
                           </div>
                           <button
                             onClick={() => updateFoodQuantity(item.id, (selectedFood[item.id] || 0) + 1)}
                             disabled={(selectedFood[item.id] || 0) >= MAX_QUANTITY_PER_ITEM}
-                            className="font-heading w-12 h-12 flex items-center justify-center bg-primary text-white rounded-lg hover:bg-secondary disabled:opacity-30 disabled:cursor-not-allowed text-xl font-bold transition-all active:scale-95 shadow-md hover:shadow-lg"
+                            className="font-heading w-10 h-10 flex items-center justify-center bg-primary text-white rounded-lg hover:bg-secondary disabled:opacity-30 disabled:cursor-not-allowed text-lg font-bold transition-all active:scale-95 shadow-md hover:shadow-lg"
                             aria-label={`Increase ${item.name} quantity`}
                           >
                             +
@@ -544,29 +510,48 @@ export default function Home() {
           </div>
         )}
 
-        {/* Booking Summary */}
+        {/* Booking Summary - Desktop (lg and up) */}
         {bookingStep === 'selection' && (Object.keys(roomQuantities).length > 0 || Object.keys(selectedFood).length > 0) && (
-          <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-blue-900 to-indigo-900 border-t-4 border-yellow-400 shadow-2xl backdrop-blur-sm z-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-              <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4">
-                <div className="text-center sm:text-left">
-                  <p className="text-sm text-blue-100 mb-1">
-                    {Object.values(roomQuantities).reduce((a, b) => a + b, 0)} room(s) • {Object.keys(selectedFood).length} food item(s)
-                  </p>
-                  <p className="font-heading text-2xl sm:text-3xl font-bold text-white">
-                    Total: ₹{calculateTotal().toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                  </p>
-                  <p className="text-xs text-gray-500 mt-1">
-                    for {calculateNights()} night{calculateNights() !== 1 ? 's' : ''}
+          <div className="hidden lg:block fixed bottom-0 left-0 right-0 bg-gradient-to-r from-[#003580] to-[#0056D6] border-t-4 border-[#F4B400] shadow-2xl z-50">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+              <div className="flex items-center justify-between">
+                <div className="text-sm text-blue-100">
+                  {Object.values(roomQuantities).reduce((a, b) => a + b, 0)} room(s) · {Object.keys(selectedFood).length} food item(s)
+                </div>
+                <div className="font-heading text-2xl font-bold text-[#F4B400]">
+                  ₹{calculateTotal().toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </div>
+                <button
+                  onClick={handleGoToCart}
+                  disabled={Object.keys(roomQuantities).length === 0}
+                  className="font-heading px-8 py-3 bg-[#F4B400] text-[#0B1220] rounded-lg font-bold text-base hover:bg-[#D99A00] disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-heading shadow-md hover:shadow-lg transition-all"
+                  aria-label="Go to cart"
+                >
+                  🛒 Confirm Booking
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Booking Summary - Mobile & Tablet (below lg) */}
+        {bookingStep === 'selection' && (Object.keys(roomQuantities).length > 0 || Object.keys(selectedFood).length > 0) && (
+          <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-gradient-to-r from-[#003580] to-[#0056D6] border-t-4 border-[#F4B400] shadow-2xl z-50">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
+              <div className="flex items-center gap-3">
+                <div className="flex-1">
+                  <p className="text-xs text-blue-100 mb-1">Total for {calculateNights()} night{calculateNights() !== 1 ? 's' : ''}</p>
+                  <p className="font-heading text-xl sm:text-2xl font-bold text-white">
+                    ₹{calculateTotal().toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </p>
                 </div>
                 <button
                   onClick={handleGoToCart}
                   disabled={Object.keys(roomQuantities).length === 0}
-                  className="font-heading px-8 sm:px-12 py-4 sm:py-5 bg-accent text-gray-900 rounded-xl font-bold text-lg sm:text-xl hover:bg-yellow-400 disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-heading shadow-2xl hover:shadow-3xl transition-all transform hover:scale-[1.02] active:scale-95"
+                  className="font-heading px-4 sm:px-6 py-3 sm:py-4 bg-[#F4B400] text-[#0B1220] rounded-lg font-bold text-sm sm:text-base hover:bg-[#D99A00] disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-heading shadow-md hover:shadow-lg transition-all whitespace-nowrap"
                   aria-label="Go to cart"
                 >
-                  🛒 View Cart & Confirm
+                  🛒 Confirm
                 </button>
               </div>
             </div>

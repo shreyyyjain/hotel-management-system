@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import apiClient from '../services/apiClient';
 import toast from 'react-hot-toast';
+import { Header } from '../components/Header';
 
 interface Stats {
   totalRooms: number;
@@ -67,78 +68,82 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-neutral-50">
+      <Header />
+
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-[#003580] to-[#0056D6] text-white py-20">
+      <section className="bg-gradient-to-r from-[#003580] to-[#0056D6] text-white py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="font-heading text-5xl md:text-6xl font-bold mb-6 uppercase tracking-heading">
-              Welcome to Hotel Paradise
-            </h1>
-            <p className="text-xl md:text-2xl text-blue-50 mb-8 max-w-3xl mx-auto font-body">
-              Experience luxury and comfort like never before. Book your perfect stay with us today.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button
-                onClick={() => navigate('/home')}
-                className="font-heading px-10 py-4 bg-[#F4B400] text-[#0B1220] rounded-xl font-bold text-lg hover:bg-[#D99A00] transition-all shadow-lg hover:shadow-xl uppercase tracking-heading"
-              >
-                Explore Now
-              </button>
-            </div>
-          </div>
+          <h1 className="font-heading text-3xl sm:text-5xl font-bold mb-4 uppercase tracking-heading">
+            Welcome to Hotel Paradise
+          </h1>
+          <p className="text-lg sm:text-xl text-blue-100 max-w-2xl mb-8">
+            Experience luxury and comfort. Book your perfect stay with us today.
+          </p>
+          <button
+            onClick={() => navigate('/home')}
+            className="font-heading px-8 py-3 bg-[#F4B400] text-[#0B1220] rounded-lg font-bold hover:bg-[#D99A00] transition-all shadow-md hover:shadow-lg uppercase tracking-heading"
+          >
+            Explore Now →
+          </button>
         </div>
       </section>
 
       {/* Stats Section */}
       {!loading && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 justify-items-center">
-            <div className="bg-white rounded-xl shadow-lg p-8 text-center transform hover:scale-105 transition-all">
-              <div className="text-4xl mb-3">🏨</div>
-              <div className="font-heading text-4xl font-bold text-primary mb-2">{stats.totalRooms}</div>
-              <div className="text-gray-600 font-medium">Total Rooms</div>
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {/* Stat Card 1 */}
+            <div className="bg-white border border-neutral-200 rounded-lg shadow-md p-6 flex items-center gap-4">
+              <div className="text-3xl">🏨</div>
+              <div>
+                <div className="text-xs text-gray-500 uppercase tracking-wide font-semibold">Total Rooms</div>
+                <div className="font-heading text-2xl font-bold text-[#0056D6]">{stats.totalRooms}</div>
+              </div>
             </div>
-            <div className="bg-white rounded-xl shadow-lg p-8 text-center transform hover:scale-105 transition-all">
-              <div className="text-4xl mb-3">✨</div>
-              <div className="font-heading text-4xl font-bold text-green-600 mb-2">{stats.availableRooms}</div>
-              <div className="text-gray-600 font-medium">Available Now</div>
+
+            {/* Stat Card 2 */}
+            <div className="bg-white border border-neutral-200 rounded-lg shadow-md p-6 flex items-center gap-4">
+              <div className="text-3xl">✨</div>
+              <div>
+                <div className="text-xs text-gray-500 uppercase tracking-wide font-semibold">Available Now</div>
+                <div className="font-heading text-2xl font-bold text-green-600">{stats.availableRooms}</div>
+              </div>
             </div>
-            <div className="bg-white rounded-xl shadow-lg p-8 text-center transform hover:scale-105 transition-all">
-              <div className="text-4xl mb-3">🍽️</div>
-              <div className="font-heading text-4xl font-bold text-orange-600 mb-2">{stats.totalFoodItems}</div>
-              <div className="text-gray-600 font-medium">Menu Items</div>
+
+            {/* Stat Card 3 */}
+            <div className="bg-white border border-neutral-200 rounded-lg shadow-md p-6 flex items-center gap-4">
+              <div className="text-3xl">🍽️</div>
+              <div>
+                <div className="text-xs text-gray-500 uppercase tracking-wide font-semibold">Menu Items</div>
+                <div className="font-heading text-2xl font-bold text-orange-600">{stats.totalFoodItems}</div>
+              </div>
             </div>
           </div>
         </section>
       )}
 
       {/* Action Cards Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 flex flex-col items-center">
-        <h2 className="font-heading text-4xl font-bold text-center text-gray-900 mb-16 uppercase tracking-heading">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <h2 className="font-heading text-3xl sm:text-4xl font-bold text-gray-900 mb-12 uppercase tracking-heading">
           What would you like to do?
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 justify-items-center max-w-5xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {actionCards.map((card, index) => (
             <div
               key={index}
               onClick={card.action}
-              className="group cursor-pointer bg-white rounded-2xl shadow-lg overflow-hidden transform hover:scale-105 transition-all duration-300 hover:shadow-2xl"
+              className="cursor-pointer bg-gradient-to-br from-blue-500 to-indigo-600 text-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all transform hover:scale-[1.02] p-6 flex flex-col h-full"
             >
-              <div className={`h-3 bg-gradient-to-r ${card.gradient}`}></div>
-              <div className="p-8">
-                <div className="text-6xl mb-6 text-center group-hover:scale-110 transition-transform">
-                  {card.icon}
-                </div>
-                <h3 className="font-heading text-2xl font-bold text-gray-900 mb-4 text-center uppercase tracking-heading">
-                  {card.title}
-                </h3>
-                <p className="text-gray-600 text-center mb-6">
-                  {card.description}
-                </p>
-                <button className="w-full font-heading py-3 bg-primary text-white rounded-lg font-bold hover:bg-secondary transition-all uppercase tracking-heading">
-                  Get Started →
-                </button>
-              </div>
+              <div className="text-4xl mb-4">{card.icon}</div>
+              <h3 className="font-heading text-xl font-bold mb-2 uppercase tracking-heading flex-1">
+                {card.title}
+              </h3>
+              <p className="text-sm text-blue-100 mb-6 flex-1">
+                {card.description}
+              </p>
+              <button className="font-heading py-2 px-4 bg-[#F4B400] text-[#0B1220] rounded-lg font-bold hover:bg-[#D99A00] transition-all uppercase tracking-heading text-sm self-start">
+                Get Started →
+              </button>
             </div>
           ))}
         </div>

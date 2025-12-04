@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import apiClient from '../services/apiClient';
 import type { Room, FoodItem } from '../types';
+import { Header } from '../components/Header';
 
 interface CartState {
   roomQuantities: { [key: string]: number };
@@ -181,8 +182,9 @@ export default function Cart() {
   const selectedFoodItems = foodItems.filter(item => selectedFood[item.id] > 0);
 
   return (
-    <div className="min-h-screen bg-neutral-50 py-12 flex justify-center">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+    <div className="min-h-screen bg-neutral-50">
+      <Header />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-8">
         {/* Header */}
         <div className="mb-8 flex flex-col items-center">
           <button
@@ -205,9 +207,9 @@ export default function Cart() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 justify-items-center">
-          {/* Cart Items */}
-          <div className="lg:col-span-2 space-y-6 w-full max-w-2xl">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 w-full">
+          {/* Cart Items - left */}
+          <div className="lg:col-span-2 space-y-6">
             {/* Rooms Section */}
             {selectedRoomGroups.length > 0 && (
               <div className="bg-white rounded-xl shadow-lg p-6">
@@ -308,8 +310,58 @@ export default function Cart() {
           </div>
 
           {/* Order Summary */}
-          <div className="lg:col-span-1 w-full max-w-sm justify-self-center">
-            <div className="bg-white rounded-xl shadow-lg p-6 sticky top-4">
+          <div className="lg:col-span-1 w-full">
+            {/* Desktop: Sticky sidebar */}
+            <div className="hidden lg:block sticky top-20 bg-white border border-neutral-200 rounded-xl shadow-lg p-6">
+              <h2 className="font-heading text-2xl font-bold text-gray-900 mb-6 uppercase tracking-heading text-center">
+                Order Summary
+              </h2>
+              
+              <div className="space-y-3 mb-6">
+                <div className="flex justify-between text-gray-700">
+                  <span>Rooms ({Object.values(roomQuantities).reduce((a, b) => a + b, 0)})</span>
+                  <span className="font-semibold">
+                    ₹{Object.entries(roomQuantities).reduce((sum, [roomType, qty]) => {
+                      const roomGroup = groupRoomsByType().find(g => g.type === roomType);
+                      return sum + (roomGroup?.pricePerNight || 0) * qty * calculateNights();
+                    }, 0).toLocaleString('en-IN')}
+                  </span>
+                </div>
+                <div className="flex justify-between text-gray-700">
+                  <span>Food ({Object.keys(selectedFood).length} items)</span>
+                  <span className="font-semibold">
+                    ₹{Object.entries(selectedFood).reduce((sum, [foodId, qty]) => {
+                      const item = foodItems.find(f => f.id === Number(foodId));
+                      return sum + (item?.price || 0) * qty;
+                    }, 0).toLocaleString('en-IN')}
+                  </span>
+                </div>
+                <div className="border-t-2 border-gray-200 pt-3 mt-3">
+                  <div className="flex justify-between items-center">
+                    <span className="font-heading text-xl font-bold text-gray-900 uppercase">Total</span>
+                    <span className="font-heading text-3xl font-bold text-primary">
+                      ₹{calculateTotal().toLocaleString('en-IN')}
+                    </span>
+                  </div>
+                  <p className="text-xs text-gray-500 text-right mt-1">for {calculateNights()} night{calculateNights() !== 1 ? 's' : ''}</p>
+                </div>
+              </div>
+
+              <button
+                onClick={handleConfirmBooking}
+                disabled={bookingLoading || Object.keys(roomQuantities).length === 0}
+                className="w-full font-heading py-4 bg-[#F4B400] text-[#0B1220] rounded-xl font-bold text-lg hover:bg-[#D99A00] disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-heading shadow-xl hover:shadow-2xl transition-all"
+              >
+                {bookingLoading ? 'Processing...' : '✨ Confirm Booking'}
+              </button>
+
+              <p className="text-xs text-gray-500 text-center mt-4">
+                By confirming, you agree to our terms and conditions
+              </p>
+            </div>
+
+            {/* Mobile/Tablet: Summary below items */}
+            <div className="lg:hidden bg-white border border-neutral-200 rounded-xl shadow-lg p-6">
               <h2 className="font-heading text-2xl font-bold text-gray-900 mb-6 uppercase tracking-heading text-center">
                 Order Summary
               </h2>
