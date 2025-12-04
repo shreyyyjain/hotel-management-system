@@ -117,7 +117,7 @@ export default function Dashboard() {
         <h2 className="font-heading text-4xl font-bold text-center text-gray-900 mb-16 uppercase tracking-heading">
           What would you like to do?
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 justify-items-center max-w-6xl">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 justify-items-center max-w-5xl">
           {actionCards.map((card, index) => (
             <div
               key={index}
@@ -150,7 +150,7 @@ export default function Dashboard() {
           <h2 className="font-heading text-4xl font-bold text-center text-gray-900 mb-12 uppercase tracking-heading">
             Why Choose Us?
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 justify-items-center max-w-6xl">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 justify-items-center max-w-5xl">
             <div className="text-center">
               <div className="text-5xl mb-4">🌟</div>
               <h3 className="font-heading text-xl font-bold text-gray-900 mb-2 uppercase">Premium Quality</h3>

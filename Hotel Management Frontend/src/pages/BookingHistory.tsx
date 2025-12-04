@@ -88,10 +88,10 @@ export default function BookingHistory() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 pb-36 flex justify-center">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         {/* Header */}
-        <div className="mb-8 flex flex-col items-center">
+        <div className="mb-8">
           <button
             onClick={() => navigate('/dashboard')}
-            className="font-heading px-6 py-3 bg-primary text-white rounded-xl font-bold hover:bg-primary/90 transition-all mb-6 flex items-center gap-2 uppercase tracking-heading shadow-md"
+            className="font-heading px-8 py-4 bg-primary text-white rounded-xl font-bold hover:bg-secondary transition-all mb-8 flex items-center gap-2 uppercase tracking-heading shadow-lg text-lg"
             aria-label="Back to Dashboard"
           >
             ← Dashboard
@@ -119,11 +119,11 @@ export default function BookingHistory() {
             </button>
           </div>
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-8 flex flex-col items-center">
             {bookings.map((booking) => (
               <div
                 key={booking.id}
-                className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all"
+                className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all w-full max-w-3xl"
               >
                 <div className="p-8">
                   {/* Header Row */}

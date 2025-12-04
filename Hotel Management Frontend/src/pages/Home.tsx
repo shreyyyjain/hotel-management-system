@@ -144,7 +144,17 @@ export default function Home() {
       return;
     }
 
-    if (new Date(checkOutDate) <= new Date(checkInDate)) {
+    const checkIn = new Date(checkInDate);
+    const checkOut = new Date(checkOutDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (checkIn < today) {
+      toast.error('Check-in date cannot be in the past');
+      return;
+    }
+
+    if (checkOut <= checkIn) {
       toast.error('Check-out date must be after check-in date');
       return;
     }
@@ -214,28 +224,28 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow-md sticky top-0 z-40">
+      <header className="bg-gradient-to-r from-blue-900 to-indigo-900 shadow-md sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <h1 className="font-heading text-heading-md font-bold text-gray-900 uppercase tracking-heading">
+            <h1 className="font-heading text-heading-md font-bold text-white uppercase tracking-heading">
               🏨 Hotel Paradise
             </h1>
             <div className="flex flex-wrap items-center gap-3">
               <button
                 onClick={() => navigate('/dashboard')}
-                className="font-heading px-4 py-2 text-sm font-bold text-gray-900 hover:text-primary uppercase tracking-heading transition-colors"
+                className="font-heading px-4 py-2 text-sm font-bold text-white hover:text-yellow-300 uppercase tracking-heading transition-colors"
                 aria-label="Go to dashboard"
               >
                 Dashboard
               </button>
               <button
                 onClick={() => navigate('/bookings')}
-                className="font-heading px-4 py-2 text-sm font-bold text-gray-900 hover:text-primary uppercase tracking-heading transition-colors"
+                className="font-heading px-4 py-2 text-sm font-bold text-white hover:text-yellow-300 uppercase tracking-heading transition-colors"
                 aria-label="View my bookings"
               >
                 My Bookings
               </button>
-              <span className="text-sm text-gray-700 font-medium hidden sm:inline">
+              <span className="text-sm text-blue-100 font-medium hidden sm:inline">
                 Welcome, {user?.fullName}
               </span>
               <button
@@ -250,20 +260,20 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="min-h-[calc(100vh-200px)] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-48 flex flex-col items-center justify-center">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-8 flex flex-col items-center justify-center">
         {/* Date Selection Step */}
         {bookingStep === 'dates' && (
           <div className="max-w-4xl mx-auto w-full flex flex-col items-center justify-center">
-            <div className="bg-gradient-to-r from-primary via-secondary to-primary text-white p-8 sm:p-12 rounded-2xl shadow-2xl mb-8 w-full">
-              <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-center uppercase tracking-heading drop-shadow-lg">
+            <div className="bg-gradient-to-r from-gray-800 to-gray-900 p-8 sm:p-12 rounded-2xl shadow-2xl mb-8 w-full">
+              <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-center uppercase tracking-heading drop-shadow-lg text-white">
                 When do you want to stay?
               </h2>
-              <p className="text-center text-lg sm:text-xl mb-8 text-white/90 drop-shadow">
+              <p className="text-center text-lg sm:text-xl mb-8 drop-shadow text-white">
                 Select your check-in and check-out dates to see available rooms
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border-2 border-white/20">
-                  <label htmlFor="checkInDate" className="block text-xl sm:text-2xl font-bold mb-4 drop-shadow">
+                <div className="bg-white/20 backdrop-blur-sm rounded-xl p-6 border-2 border-white/30 shadow-lg">
+                  <label htmlFor="checkInDate" className="block text-xl sm:text-2xl font-bold mb-4 text-white drop-shadow-lg">
                     📅 Check-in Date
                   </label>
                   <input
@@ -273,13 +283,13 @@ export default function Home() {
                     onChange={(e) => setCheckInDate(e.target.value)}
                     min={new Date().toISOString().split('T')[0]}
                     placeholder="dd-mm-yyyy"
-                    className="w-full px-4 sm:px-6 py-3 sm:py-4 text-lg sm:text-xl rounded-xl text-gray-900 font-bold focus:outline-none focus:ring-4 focus:ring-accent transition-all"
+                    className="w-full px-4 sm:px-6 py-3 sm:py-4 text-lg sm:text-xl rounded-xl text-gray-900 font-bold focus:outline-none focus:ring-4 focus:ring-yellow-400 transition-all bg-gray-100"
                     aria-label="Select check-in date"
                     aria-required="true"
                   />
                 </div>
-                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border-2 border-white/20">
-                  <label htmlFor="checkOutDate" className="block text-xl sm:text-2xl font-bold mb-4 drop-shadow">
+                <div className="bg-white/20 backdrop-blur-sm rounded-xl p-6 border-2 border-white/30 shadow-lg">
+                  <label htmlFor="checkOutDate" className="block text-xl sm:text-2xl font-bold mb-4 text-white drop-shadow-lg">
                     📅 Check-out Date
                   </label>
                   <input
@@ -289,7 +299,7 @@ export default function Home() {
                     onChange={(e) => setCheckOutDate(e.target.value)}
                     min={checkInDate || new Date().toISOString().split('T')[0]}
                     placeholder="dd-mm-yyyy"
-                    className="w-full px-4 sm:px-6 py-3 sm:py-4 text-lg sm:text-xl rounded-xl text-gray-900 font-bold focus:outline-none focus:ring-4 focus:ring-accent transition-all"
+                    className="w-full px-4 sm:px-6 py-3 sm:py-4 text-lg sm:text-xl rounded-xl text-gray-900 font-bold focus:outline-none focus:ring-4 focus:ring-yellow-400 transition-all bg-gray-100"
                     aria-label="Select check-out date"
                     aria-required="true"
                   />
@@ -311,7 +321,7 @@ export default function Home() {
         {bookingStep === 'selection' && (
           <div className="w-full flex flex-col items-center">
             {/* Date Summary Banner */}
-            <div className="bg-primary text-white p-4 sm:p-6 rounded-xl mb-8 shadow-lg max-w-5xl w-full">
+            <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white p-4 sm:p-6 rounded-xl mb-8 shadow-lg max-w-5xl w-full">
               <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
                 <div className="text-center">
                   <p className="text-sm text-white/80 mb-1 uppercase tracking-wide">Your Stay</p>
@@ -324,7 +334,7 @@ export default function Home() {
                 </div>
                 <button
                   onClick={() => setBookingStep('dates')}
-                  className="font-heading text-accent underline hover:text-yellow-300 font-bold uppercase tracking-heading transition-colors"
+                  className="font-heading px-6 py-3 bg-gray-700 text-white rounded-lg font-bold uppercase tracking-heading transition-all hover:bg-gray-600 shadow-md"
                   aria-label="Change dates"
                 >
                   Change Dates
@@ -362,12 +372,12 @@ export default function Home() {
 
             {/* Rooms Section */}
             {activeTab === 'rooms' && (
-              <section className="mb-12 max-w-7xl w-full" aria-labelledby="rooms-heading">
-                <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
+              <section className="mb-12 max-w-7xl w-full flex flex-col items-center" aria-labelledby="rooms-heading">
+                <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8 w-full">
                   <h2 id="rooms-heading" className="font-heading text-heading-md font-bold text-gray-900 uppercase tracking-heading">
                     Select Your Rooms
                   </h2>
-                  <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                  <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto justify-center">
                     <input
                       type="text"
                       placeholder="Search room types..."
@@ -392,11 +402,11 @@ export default function Home() {
                   </div>
                 </div>
                 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 justify-items-center w-full max-w-6xl">
                   {filteredRoomGroups.map((group) => (
                     <div
                       key={group.type}
-                      className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all transform hover:scale-[1.02]"
+                      className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all transform hover:scale-[1.02] w-full max-w-xs"
                     >
                       <div className="h-48 bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
                         <span className="text-7xl" role="img" aria-label="Hotel icon">🏨</span>
@@ -450,12 +460,12 @@ export default function Home() {
 
             {/* Food Items Section */}
             {activeTab === 'food' && (
-              <section className="mb-12 max-w-7xl w-full" aria-labelledby="food-heading">
-                <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
+              <section className="mb-12 max-w-7xl w-full flex flex-col items-center" aria-labelledby="food-heading">
+                <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8 w-full">
                   <h2 id="food-heading" className="font-heading text-heading-md font-bold text-gray-900 uppercase tracking-heading">
                     Add Food to Your Order
                   </h2>
-                  <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                  <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto justify-center">
                     <input
                       type="text"
                       placeholder="Search food..."
@@ -481,9 +491,9 @@ export default function Home() {
                   </div>
                 </div>
                 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 justify-items-center w-full max-w-6xl">
                   {filteredFood.map((item) => (
-                    <div key={item.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all transform hover:scale-[1.02]">
+                    <div key={item.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all transform hover:scale-[1.02] w-full max-w-xs">
                       <div className="h-48 bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center">
                         <span className="text-7xl" role="img" aria-label="Food icon">🍽️</span>
                       </div>
@@ -536,14 +546,14 @@ export default function Home() {
 
         {/* Booking Summary */}
         {bookingStep === 'selection' && (Object.keys(roomQuantities).length > 0 || Object.keys(selectedFood).length > 0) && (
-          <div className="fixed bottom-0 left-0 right-0 bg-white border-t-4 border-primary shadow-2xl backdrop-blur-sm z-50">
+          <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-blue-900 to-indigo-900 border-t-4 border-yellow-400 shadow-2xl backdrop-blur-sm z-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
               <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4">
                 <div className="text-center sm:text-left">
-                  <p className="text-sm text-gray-600 mb-1">
+                  <p className="text-sm text-blue-100 mb-1">
                     {Object.values(roomQuantities).reduce((a, b) => a + b, 0)} room(s) • {Object.keys(selectedFood).length} food item(s)
                   </p>
-                  <p className="font-heading text-2xl sm:text-3xl font-bold text-gray-900">
+                  <p className="font-heading text-2xl sm:text-3xl font-bold text-white">
                     Total: ₹{calculateTotal().toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </p>
                   <p className="text-xs text-gray-500 mt-1">

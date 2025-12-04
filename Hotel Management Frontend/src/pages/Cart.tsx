@@ -40,6 +40,14 @@ export default function Cart() {
 
   const { rooms, foodItems, checkInDate, checkOutDate } = cartState;
 
+  const handleBackToSelection = () => {
+    if (!checkInDate || !checkOutDate || new Date(checkOutDate) <= new Date(checkInDate)) {
+      navigate('/home');
+    } else {
+      navigate('/home', { state: { step: 'selection' } });
+    }
+  };
+
   const groupRoomsByType = (): RoomTypeGroup[] => {
     const grouped = rooms.reduce((acc, room) => {
       if (!acc[room.roomType]) {
@@ -178,8 +186,8 @@ export default function Cart() {
         {/* Header */}
         <div className="mb-8 flex flex-col items-center">
           <button
-            onClick={() => navigate('/home', { state: { step: 'selection' } })}
-            className="font-heading px-6 py-3 bg-primary text-white rounded-xl font-bold hover:bg-primary/90 transition-all mb-6 inline-flex items-center gap-2 uppercase tracking-heading shadow-md"
+            onClick={handleBackToSelection}
+            className="font-heading px-8 py-4 bg-gray-800 text-white rounded-xl font-bold hover:bg-gray-700 transition-all mb-6 inline-flex items-center gap-2 uppercase tracking-heading shadow-lg text-lg"
             aria-label="Back to Room Selection"
           >
             ← Back to Room Selection
@@ -197,9 +205,9 @@ export default function Cart() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 justify-items-center">
           {/* Cart Items */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-6 w-full max-w-2xl">
             {/* Rooms Section */}
             {selectedRoomGroups.length > 0 && (
               <div className="bg-white rounded-xl shadow-lg p-6">
@@ -300,7 +308,7 @@ export default function Cart() {
           </div>
 
           {/* Order Summary */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 w-full max-w-sm justify-self-center">
             <div className="bg-white rounded-xl shadow-lg p-6 sticky top-4">
               <h2 className="font-heading text-2xl font-bold text-gray-900 mb-6 uppercase tracking-heading text-center">
                 Order Summary
@@ -339,7 +347,7 @@ export default function Cart() {
               <button
                 onClick={handleConfirmBooking}
                 disabled={bookingLoading || Object.keys(roomQuantities).length === 0}
-                className="w-full font-heading py-4 bg-accent text-gray-900 rounded-xl font-bold text-lg hover:bg-yellow-400 disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-heading shadow-xl hover:shadow-2xl transition-all"
+                className="w-full font-heading py-4 bg-yellow-300 text-gray-900 rounded-xl font-bold text-lg hover:bg-yellow-400 disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-heading shadow-xl hover:shadow-2xl transition-all"
               >
                 {bookingLoading ? 'Processing...' : '✨ Confirm Booking'}
               </button>
