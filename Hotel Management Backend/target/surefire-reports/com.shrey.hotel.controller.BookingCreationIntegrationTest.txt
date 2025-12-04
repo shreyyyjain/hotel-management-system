@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.shrey.hotel.controller.BookingCreationIntegrationTest
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.508 s -- in com.shrey.hotel.controller.BookingCreationIntegrationTest

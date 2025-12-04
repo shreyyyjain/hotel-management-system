@@ -50,6 +50,12 @@ public class Booking {
     @Column(name = "food_quantities")
     private String foodQuantities; // JSON: {"1": 2, "3": 1} or Map in separate table
 
+    @Column(name = "check_in_date")
+    private java.time.LocalDate checkInDate;
+
+    @Column(name = "check_out_date")
+    private java.time.LocalDate checkOutDate;
+
     @Column(nullable = false)
     private BigDecimal totalAmount;
 
@@ -108,4 +114,8 @@ public class Booking {
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public java.time.LocalDate getCheckInDate() { return checkInDate; }
+    public void setCheckInDate(java.time.LocalDate checkInDate) { this.checkInDate = checkInDate; }
+    public java.time.LocalDate getCheckOutDate() { return checkOutDate; }
+    public void setCheckOutDate(java.time.LocalDate checkOutDate) { this.checkOutDate = checkOutDate; }
 }

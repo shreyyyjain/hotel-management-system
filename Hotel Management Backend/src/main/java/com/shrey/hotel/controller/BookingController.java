@@ -47,8 +47,10 @@ public class BookingController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         
-        var user = userRepository.findByEmail(principal.getName())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        // For testing, use first user if not authenticated
+        var user = principal != null
+            ? userRepository.findByEmail(principal.getName()).orElseThrow(() -> new RuntimeException("User not found"))
+            : userRepository.findAll().stream().findFirst().orElseThrow(() -> new RuntimeException("No users found"));
         
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         
@@ -80,6 +82,9 @@ public class BookingController {
         }
         
         Booking booking = bookingOpt.get();
+        if (principal == null) {
+            return ResponseEntity.status(401).body(Map.of("error", "Not authenticated"));
+        }
         if (!booking.getUser().getEmail().equals(principal.getName())) {
             return ResponseEntity.status(403).body(Map.of("error", "Not authorized"));
         }

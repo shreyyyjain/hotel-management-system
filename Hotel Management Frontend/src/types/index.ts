@@ -42,6 +42,10 @@ export interface Booking {
 }
 
 export interface AuthResponse {
-  token: string;
-  user: User;
+  id: number;
+  email: string;
+  fullName: string;
+  accessToken: string;
+  refreshToken: string;
+  expiresIn: number;
 }

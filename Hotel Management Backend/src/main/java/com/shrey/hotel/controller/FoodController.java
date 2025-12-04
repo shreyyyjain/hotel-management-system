@@ -25,7 +25,7 @@ import com.shrey.hotel.model.FoodItem;
 import com.shrey.hotel.repository.FoodItemRepository;
 
 @RestController
-@RequestMapping("/food")
+@RequestMapping("/food-items")
 public class FoodController {
     private final FoodItemRepository foodItemRepository;
 

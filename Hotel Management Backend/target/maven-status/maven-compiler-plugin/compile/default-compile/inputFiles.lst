@@ -12,6 +12,7 @@ C:\Users\shrey\Desktop\Projects\Java\Hotel Management System\Hotel Management Ba
 C:\Users\shrey\Desktop\Projects\Java\Hotel Management System\Hotel Management Backend\src\main\java\com\shrey\hotel\service\EmailService.java
 C:\Users\shrey\Desktop\Projects\Java\Hotel Management System\Hotel Management Backend\src\main\java\com\shrey\hotel\repository\RoomRepository.java
 C:\Users\shrey\Desktop\Projects\Java\Hotel Management System\Hotel Management Backend\src\main\java\com\shrey\hotel\config\MailConfig.java
+C:\Users\shrey\Desktop\Projects\Java\Hotel Management System\Hotel Management Backend\src\main\java\com\shrey\hotel\config\SecurityBeans.java
 C:\Users\shrey\Desktop\Projects\Java\Hotel Management System\Hotel Management Backend\src\main\java\com\shrey\hotel\dto\CartDTO.java
 C:\Users\shrey\Desktop\Projects\Java\Hotel Management System\Hotel Management Backend\src\main\java\com\shrey\hotel\service\BookingService.java
 C:\Users\shrey\Desktop\Projects\Java\Hotel Management System\Hotel Management Backend\src\main\java\com\shrey\hotel\model\Role.java
@@ -21,6 +22,7 @@ C:\Users\shrey\Desktop\Projects\Java\Hotel Management System\Hotel Management Ba
 C:\Users\shrey\Desktop\Projects\Java\Hotel Management System\Hotel Management Backend\src\main\java\com\shrey\hotel\repository\UserRepository.java
 C:\Users\shrey\Desktop\Projects\Java\Hotel Management System\Hotel Management Backend\src\main\java\com\shrey\hotel\controller\BookingController.java
 C:\Users\shrey\Desktop\Projects\Java\Hotel Management System\Hotel Management Backend\src\main\java\com\shrey\hotel\service\RefreshTokenService.java
+C:\Users\shrey\Desktop\Projects\Java\Hotel Management System\Hotel Management Backend\src\main\java\com\shrey\hotel\config\CorsConfig.java
 C:\Users\shrey\Desktop\Projects\Java\Hotel Management System\Hotel Management Backend\src\main\java\com\shrey\hotel\security\JwtAuthenticationFilter.java
 C:\Users\shrey\Desktop\Projects\Java\Hotel Management System\Hotel Management Backend\src\main\java\com\shrey\hotel\model\FoodItem.java
 C:\Users\shrey\Desktop\Projects\Java\Hotel Management System\Hotel Management Backend\src\main\java\com\shrey\hotel\model\BookingStatus.java
