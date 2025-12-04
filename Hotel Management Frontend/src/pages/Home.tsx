@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import apiClient from '../services/apiClient';
 import type { Room, FoodItem } from '../types';
-import { authService } from '../services/authService';
 import { SkeletonGrid } from '../components/SkeletonLoader';
 import { Header } from '../components/Header';
 
@@ -26,7 +25,6 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
-  const user = authService.getCurrentUser();
   const [activeTab, setActiveTab] = useState<'rooms' | 'food'>('rooms');
   const [bookingStep, setBookingStep] = useState<'dates' | 'selection'>(
     location.state?.step === 'selection' ? 'selection' : 'dates'
@@ -223,11 +221,12 @@ export default function Home() {
     <div className="min-h-screen bg-neutral-50">
       <Header />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-8 flex flex-col items-center justify-center">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-32">
         {/* Date Selection Step */}
         {bookingStep === 'dates' && (
-          <div className="max-w-4xl mx-auto w-full flex flex-col items-center justify-center">
-            <div className="bg-gradient-to-r from-gray-800 to-gray-900 p-8 sm:p-12 rounded-2xl shadow-2xl mb-8 w-full">
+          <div className="min-h-[calc(100vh-10rem)] flex items-center justify-center">
+            <div className="max-w-4xl w-full">
+              <div className="bg-gradient-to-r from-gray-800 to-gray-900 p-8 sm:p-12 rounded-2xl shadow-2xl">
               <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold mb-2 text-center uppercase tracking-heading text-white">
                 When do you want to stay?
               </h2>
@@ -274,6 +273,7 @@ export default function Home() {
               >
                 Continue to Room Selection →
               </button>
+            </div>
             </div>
           </div>
         )}
@@ -333,7 +333,7 @@ export default function Home() {
 
             {/* Rooms Section */}
             {activeTab === 'rooms' && (
-              <section className="mb-12 max-w-7xl w-full flex flex-col items-center" aria-labelledby="rooms-heading">
+              <section id="rooms-section" className="mb-12 max-w-7xl w-full flex flex-col items-center" aria-labelledby="rooms-heading">
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8 w-full">
                   <h2 id="rooms-heading" className="font-heading text-heading-md font-bold text-gray-900 uppercase tracking-heading">
                     Select Your Rooms
@@ -409,7 +409,7 @@ export default function Home() {
                           <button
                             onClick={() => updateRoomQuantity(group.type, 1)}
                             disabled={!group.availableCount || (roomQuantities[group.type] || 0) >= Math.min(group.availableCount, MAX_QUANTITY_PER_ITEM)}
-                            className="font-heading w-10 h-10 flex items-center justify-center bg-primary text-white rounded-lg hover:bg-secondary disabled:opacity-30 disabled:cursor-not-allowed text-lg font-bold transition-all active:scale-95 shadow-md hover:shadow-lg"
+                            className="font-heading w-10 h-10 flex items-center justify-center bg-[#F4B400] text-gray-900 rounded-lg hover:bg-[#D99A00] disabled:opacity-30 disabled:cursor-not-allowed text-lg font-bold transition-all active:scale-95 shadow-md hover:shadow-lg"
                             aria-label={`Increase ${group.type} room quantity`}
                           >
                             +
@@ -424,7 +424,7 @@ export default function Home() {
 
             {/* Food Items Section */}
             {activeTab === 'food' && (
-              <section className="mb-12 max-w-7xl w-full flex flex-col items-center" aria-labelledby="food-heading">
+              <section id="food-section" className="mb-12 max-w-7xl w-full flex flex-col items-center" aria-labelledby="food-heading">
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8 w-full">
                   <h2 id="food-heading" className="font-heading text-heading-md font-bold text-gray-900 uppercase tracking-heading">
                     Add Food to Your Order
@@ -495,7 +495,7 @@ export default function Home() {
                           <button
                             onClick={() => updateFoodQuantity(item.id, (selectedFood[item.id] || 0) + 1)}
                             disabled={(selectedFood[item.id] || 0) >= MAX_QUANTITY_PER_ITEM}
-                            className="font-heading w-10 h-10 flex items-center justify-center bg-primary text-white rounded-lg hover:bg-secondary disabled:opacity-30 disabled:cursor-not-allowed text-lg font-bold transition-all active:scale-95 shadow-md hover:shadow-lg"
+                            className="font-heading w-10 h-10 flex items-center justify-center bg-[#F4B400] text-gray-900 rounded-lg hover:bg-[#D99A00] disabled:opacity-30 disabled:cursor-not-allowed text-lg font-bold transition-all active:scale-95 shadow-md hover:shadow-lg"
                             aria-label={`Increase ${item.name} quantity`}
                           >
                             +

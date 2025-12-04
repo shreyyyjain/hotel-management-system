@@ -23,14 +23,20 @@ export function Header() {
         {/* Center: Navigation Links (hidden on mobile) */}
         <nav className="hidden md:flex items-center gap-6">
           <button
-            onClick={() => navigate('/')}
+            onClick={() => {
+              navigate('/');
+              setTimeout(() => document.getElementById('rooms-section')?.scrollIntoView({ behavior: 'smooth' }), 100);
+            }}
             className="font-heading text-sm font-bold text-white hover:text-[#F4B400] uppercase tracking-heading transition-colors"
             aria-label="View rooms"
           >
             Rooms
           </button>
           <button
-            onClick={() => navigate('/')}
+            onClick={() => {
+              navigate('/');
+              setTimeout(() => document.getElementById('food-section')?.scrollIntoView({ behavior: 'smooth' }), 100);
+            }}
             className="font-heading text-sm font-bold text-white hover:text-[#F4B400] uppercase tracking-heading transition-colors"
             aria-label="View food menu"
           >

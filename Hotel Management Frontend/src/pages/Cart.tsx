@@ -184,7 +184,8 @@ export default function Cart() {
   return (
     <div className="min-h-screen bg-neutral-50">
       <Header />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-8">
+      <main className="pt-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-32">
         {/* Header */}
         <div className="mb-8 flex flex-col items-center">
           <button
@@ -410,7 +411,8 @@ export default function Cart() {
             </div>
           </div>
         </div>
-      </div>
+        </div>
+      </main>
     </div>
   );
 }

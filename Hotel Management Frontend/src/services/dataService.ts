@@ -1,5 +1,5 @@
 import apiClient from './apiClient';
-import { Room, FoodItem, Cart } from '../types';
+import type { Room, FoodItem, Cart } from '../types';
 
 export const roomsService = {
   getAllRooms: async (): Promise<Room[]> => {

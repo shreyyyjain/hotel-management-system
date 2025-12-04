@@ -1,5 +1,6 @@
-import React, { createContext, useReducer, useContext, ReactNode } from 'react';
-import { User, Cart, CartItem } from '../types';
+import React, { createContext, useReducer, useContext } from 'react';
+import type { ReactNode } from 'react';
+import type { User, CartItem } from '../types';
 
 interface AuthState {
   user: User | null;

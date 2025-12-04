@@ -119,7 +119,7 @@ export default function BookingHistory() {
             </button>
           </div>
         ) : (
-          <div className="space-y-8 flex flex-col items-center">
+          <div className="space-y-12 flex flex-col items-center">
             {bookings.map((booking) => (
               <div
                 key={booking.id}

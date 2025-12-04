@@ -1,6 +1,6 @@
 import { useAppContext } from '../context/AppContext';
 import { authService } from '../services/authService';
-import { User, AuthResponse } from '../types';
+import type { AuthResponse } from '../types';
 
 export function useAuth() {
   const { state, dispatch } = useAppContext();
@@ -9,8 +9,9 @@ export function useAuth() {
     dispatch({ type: 'SET_LOADING', payload: true });
     try {
       const response: AuthResponse = await authService.login(email, password);
-      dispatch({ type: 'SET_USER', payload: response.user });
-      dispatch({ type: 'SET_TOKEN', payload: response.token });
+      const user = { id: response.id, email: response.email, fullName: response.fullName, createdAt: new Date().toISOString() };
+      dispatch({ type: 'SET_USER', payload: user });
+      dispatch({ type: 'SET_TOKEN', payload: response.accessToken });
       dispatch({ type: 'SET_ERROR', payload: null });
       return response;
     } catch (error: any) {
@@ -26,8 +27,9 @@ export function useAuth() {
     dispatch({ type: 'SET_LOADING', payload: true });
     try {
       const response: AuthResponse = await authService.signup(email, password, fullName);
-      dispatch({ type: 'SET_USER', payload: response.user });
-      dispatch({ type: 'SET_TOKEN', payload: response.token });
+      const user = { id: response.id, email: response.email, fullName: response.fullName, createdAt: new Date().toISOString() };
+      dispatch({ type: 'SET_USER', payload: user });
+      dispatch({ type: 'SET_TOKEN', payload: response.accessToken });
       dispatch({ type: 'SET_ERROR', payload: null });
       return response;
     } catch (error: any) {
